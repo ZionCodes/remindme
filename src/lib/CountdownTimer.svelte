@@ -12,6 +12,7 @@
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = new Date(targetDate).getTime() - now;
+    console.log(distance)
 
     days.set(Math.floor(distance / (1000 * 60 * 60 * 24)));
     hours.set(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));

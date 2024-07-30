@@ -1,5 +1,6 @@
 <script>
-    import { goto } from '$app/navigation'; // Correct import for `goto`
+    import { goto } from '$app/navigation';
+    import { fade, blur } from 'svelte/transition' // Correct import for `goto`
 
     async function logout() {
         const response = await fetch('/logout', {
@@ -15,4 +16,7 @@
     }
 </script>
 
-<button on:click={logout}>Logout</button>
+<div in:fade out:blur>
+    <button on:click={logout}>Logout</button>
+</div>
+
