@@ -8,7 +8,7 @@ export const GET = async () => {
     });
   } catch (error) {
     console.error('Error checking reminders:', error);
-    return new Response('Error checking reminders', {
+    return new Response('Error checking reminders: ' + error.message, {
       status: 500
     });
   }
