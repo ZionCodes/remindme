@@ -25,7 +25,7 @@
                 isVisible = false;
                 toastMessage.set('');
                 toastStatus.set('');
-            }, 3000);
+            }, 5000);
         }
     });
 

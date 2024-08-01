@@ -59,13 +59,15 @@ export const actions = {
             const description = formData.get('description');
             const date = formData.get('date');
             const field = locals.user.id;
+            const offset = formData.get('offset');
 
             // Construct reminder object
             const reminder = {
                 name,
                 description,
                 date,
-                field
+                field,
+                offset
             };
 
             // Create a new reminder record in PocketBase

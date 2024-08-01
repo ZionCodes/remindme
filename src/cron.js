@@ -5,7 +5,7 @@ export function setupCronJobs() {
   console.log('Setting up cron jobs...');
   
   // Run every 5 minutes
-  cron.schedule('0 * * * *', async () => {
+  cron.schedule('*/5 * * * *', async () => {
     console.log('Running reminder check...');
     try {
       await checkReminders();

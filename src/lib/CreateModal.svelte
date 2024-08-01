@@ -1,29 +1,32 @@
 <script>
     import { onMount } from 'svelte';
     import { scale } from 'svelte/transition'
+    import { DateTime } from 'luxon';
 
     let description = '';
     const maxLength = 120;
     let remainingChars = maxLength;
 
-    let todayDate = '';
 
     const handleInput = (event) => {
         description = event.target.value;
         remainingChars = maxLength - description.length;
     };
 
+    let minDate = '';
+    let offset = getUserTimeOffset();
+
+    function getUserTimeOffset() {
+        const offsetInMinutes = DateTime.local().offset; 
+        console.log(offsetInMinutes)// Offset in minutes
+        return offsetInMinutes / 60; // Convert to hours
+    }
+
     onMount(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const year = tomorrow.getFullYear();
-    const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
-    const day = String(tomorrow.getDate()).padStart(2, '0');
-    todayDate = `${year}-${month}-${day}`;
+        const today = DateTime.local();
+        const tomorrow = today.plus({ days: 1 });
+        minDate = tomorrow.toISODate();  // Format as 'YYYY-MM-DD'
     });
-
 
 </script>
 
@@ -59,7 +62,7 @@
                             <input name="date" id="datepicker-format" 
                             required
                             datepicker 
-                            datepicker-min-date={'todayDate'}
+                            datepicker-min-date={minDate}
                             datepicker-format="yyyy-mm-dd" 
                             datepicker-autohide
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -71,6 +74,8 @@
                         <textarea name="description" rows="4" maxlength={maxLength} class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write product description here" on:input={handleInput}
                         bind:value={description}></textarea>                    
                     </div>
+                    <input type="hidden" name="offset" value={offset}>
+
                     
                 </div>
                 <button type="submit" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">

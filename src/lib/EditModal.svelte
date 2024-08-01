@@ -1,6 +1,8 @@
 <script>
     import { onMount } from 'svelte';
     import { selectedReminder } from "../stores";
+    import { DateTime } from 'luxon';
+
   
     let modal;
     let reminder = {
@@ -28,15 +30,15 @@
     }
   });
 
-  let todayDate;
-  onMount(() => {
-    const today = new Date();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const day = today.getDate().toString().padStart(2, '0');
-    const year = today.getFullYear();
-    
-    todayDate = `${month}/${day}/${year}`; // Format: MM/DD/YYYY
-  });
+  let minDate = '';
+
+    onMount(() => {
+        const today = DateTime.local();
+        const tomorrow = today.plus({ days: 1 });
+        minDate = tomorrow.toISODate();  // Format as 'YYYY-MM-DD'
+    });
+
+
   
     onMount(() => {
       modal = document.getElementById('updateProductModal');
@@ -80,10 +82,10 @@
                                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                 </svg>
                             </div>
-                            <input name="date" id="datepicker-autohide datepicker-format" 
+                            <input name="date" id="datepicker-format" 
                             datepicker 
                             required
-                            datepicker-min-date={"todayDate"}
+                            datepicker-min-date={minDate}
                             datepicker-format="yyyy-mm-dd" 
                             datepicker-autohide
                             bind:value={reminder.targetDate} 
