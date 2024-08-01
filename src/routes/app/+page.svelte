@@ -52,7 +52,7 @@
                                     </div>
                                   </div>
                                   <div class="flex flex-col items-end text-sm leading-6 text-gray-900 sm:flex-col-reverse">
-                                    <span class="text-gray-700 text-sm flex"><CountdownTimer targetDate={reminder.targetDate} /></span>
+                                    <span class="text-gray-700 text-sm flex"><CountdownTimer targetDate={reminder.targetDate} offset={reminder.offset} /></span>
                                   </div>
                                   <button 
                                   id="updateProductButton" 

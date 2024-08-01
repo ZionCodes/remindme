@@ -26,7 +26,8 @@ export const load = async ({ locals }) => {
             name: reminder.name,
             description: reminder.description,
             id: reminder.id,
-            targetDate: reminder.date
+            targetDate: reminder.date,
+            offset: reminder.offset
             // Add more fields as needed
         }));
 

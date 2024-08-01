@@ -4,7 +4,7 @@
     import { DateTime } from 'luxon';
 
     let description = '';
-    const maxLength = 120;
+    const maxLength = 80;
     let remainingChars = maxLength;
 
 

@@ -1,23 +1,50 @@
 <script>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import { DateTime } from 'luxon';
 
-  export let targetDate; // Accept the target date as a prop
+  export let targetDate;
+  export let offset; 
 
+  // Define writable stores for countdown values
   let days = writable(0);
   let hours = writable(0);
   let minutes = writable(0);
   let seconds = writable(0);
 
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = new Date(targetDate).getTime() - now;
-    // console.log(distance)
+  function adjustDate(targetDate, offset) {
+    // Ensure targetDate is in ISO format
+    const formattedDate = targetDate.replace(' ', 'T');
 
-    days.set(Math.floor(distance / (1000 * 60 * 60 * 24)));
-    hours.set(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-    minutes.set(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-    seconds.set(Math.floor((distance % (1000 * 60)) / 1000));
+    // Parse the formattedDate to a DateTime object in UTC
+    const date = DateTime.fromISO(formattedDate, { zone: 'utc' });
+
+    // Adjust the date by adding/subtracting the offset (in hours)
+    const adjustedDate = date.minus({ hours: offset });
+
+    // Convert the adjusted date to ISO format
+    return adjustedDate.toISO();
+  }
+
+  function updateCountdown() {
+    // Get the current time in UTC
+    const now = DateTime.utc();
+
+    // Convert the current time to ISO 8601 format
+    const nowISO = now.toISO();
+
+    // Parse the adjustedDate and nowISO using Luxon
+    const adjustedDateTime = DateTime.fromISO(adjustDate(targetDate, offset));
+    const nowDateTime = DateTime.fromISO(nowISO);
+
+    // Calculate the difference between nowDateTime and adjustedDateTime
+    const difference = adjustedDateTime.diff(nowDateTime, ['days', 'hours', 'minutes', 'seconds']).toObject();
+
+    // Update writable stores with the difference
+    days.set(Math.floor(difference.days || 0));
+    hours.set(Math.floor(difference.hours || 0));
+    minutes.set(Math.floor(difference.minutes || 0));
+    seconds.set(Math.floor(difference.seconds || 0));
   }
 
   onMount(() => {

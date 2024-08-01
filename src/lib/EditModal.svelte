@@ -11,7 +11,7 @@
     };
 
     let description = '';
-    const maxLength = 120;
+    const maxLength = 60;
     let remainingChars = maxLength;
 
     const handleInput = (event) => {
