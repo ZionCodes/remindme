@@ -4,8 +4,8 @@ import { checkReminders } from '$lib/server/checkReminders';
 export function setupCronJobs() {
   console.log('Setting up cron jobs...');
   
-  // Run every 5 minutes
-  cron.schedule('*/5 * * * *', async () => {
+  // Run every minute
+  cron.schedule('* * * * *', async () => {
     console.log('Running reminder check...');
     try {
       await checkReminders();
