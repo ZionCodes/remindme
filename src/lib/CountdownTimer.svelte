@@ -55,7 +55,7 @@
   });
 </script>
 
-<div class="flex justify-center text-gray-500 items-center h-full">
+<div class="flex justify-center text-gray-600 items-center h-full">
   <div class="grid auto-cols-max grid-flow-col gap-5 text-center text-l">
     <div class="flex flex-col text-center">
       <span class="countdown font-mono">
